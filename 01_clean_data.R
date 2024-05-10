@@ -12,7 +12,7 @@ library(haven)
 # Data ----
 
 ## BESIP
-besip <- read_dta("../BES2019_W20_Panel_v0.1.dta",
+besip <- read_dta("data/BES2019_W20_Panel_v0.1.dta",
                   col_select = c("id","wt_new_W14", "wave14",
                                  "lr1W14W15","lr2W14W15","lr3W14W15","lr4W14W15","lr5W14W15",
                                  "al1W14W15","al2W14W15","al3W14W15","al4W14W15","al5W14W15",

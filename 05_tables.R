@@ -111,7 +111,7 @@ eCfa <- lavaan(emod, empathy, auto.var = T, int.ov.free = T, estimator="MLR")
 ## Main Results ----
 
 texreg(demoReg,
-       file="tables_demoReg.tex",
+       file="tables/demoReg.tex",
        custom.model.names = c("BSA Left-Right", "BES Left-Right", "BSA Lib-Auth", "BES Lib-Auth"),
        custom.coef.names = c("Intercept", "GCSE/Equiv", "A-level/Equiv", "Undergrad", "Postgrad"),
        stars=NULL,
@@ -123,7 +123,7 @@ texreg(demoReg,
 ## Robustness ----
 
 texreg(demoRobust1,
-       file="tables_demoRobust1.tex",
+       file="tables/demoRobust1.tex",
        custom.model.names = c("OLS", "Logit", "Probit"),
        custom.coef.names = c("Intercept", map_chr(1:5, ~paste0("Ind",.x))),
        stars=NULL,
@@ -133,7 +133,7 @@ texreg(demoRobust1,
        caption.above = T)
 
 texreg(demoRobust2,
-       file="tables_demoRobust2.tex",
+       file="tables/demoRobust2.tex",
        custom.model.names = c("Left-Right", "Lib-Auth"),
        custom.coef.names = c("Intercept", "Aug", "Sep"),
        stars=NULL,
@@ -141,6 +141,9 @@ texreg(demoRobust2,
        label = "table:demoRobust2",
        caption = "Regression of Scales on Survey Month",
        caption.above = T)
+
+## Save dir
+if (!dir.exists("tables")) dir.create("tables")
 
 
 
@@ -157,7 +160,7 @@ semTable(zCfa,
          label = "table:zeroCFACheck") %>%
   cfaOut(caption="Zero CFA Check") %>%
   capture.output() %>%
-  writeLines(con="tables_zCFA.tex", sep="\n")
+  writeLines(con="tables/zCFA.tex", sep="\n")
 
 semTable(eCfa,
          print.results = F,
@@ -168,7 +171,7 @@ semTable(eCfa,
          label = "table:emCFACheck") %>%
   cfaOut(caption="Empathy CFA Check") %>%
   capture.output() %>%
-  writeLines(con="tables_eCFA.tex", sep="\n")
+  writeLines(con="tables/eCFA.tex", sep="\n")
 
 
 
@@ -186,7 +189,7 @@ semTable(zeroList[[1]]$fit,
          label = "table:zeroCFA1") %>%
   cfaLong(caption = "Zero-Sum CFA1") %>%
   capture.output() %>%
-  writeLines(con="tables_zeroCFA1.tex", sep="\n")
+  writeLines(con="tables/zeroCFA1.tex", sep="\n")
 
 semTable(zeroList[[2]]$fit,
          print.results = F,
@@ -197,7 +200,7 @@ semTable(zeroList[[2]]$fit,
          label = "table:zeroCFA2") %>%
   cfaLong(caption = "Zero-Sum CFA2") %>%
   capture.output() %>%
-  writeLines(con="tables_zeroCFA2.tex", sep="\n")
+  writeLines(con="tables/zeroCFA2.tex", sep="\n")
 
 semTable(zeroList[[3]]$fit,
          print.results = F,
@@ -208,7 +211,7 @@ semTable(zeroList[[3]]$fit,
          label = "table:zeroOCFA1") %>%
   cfaLong(caption = "Zero-Sum OCFA1") %>%
   capture.output() %>%
-  writeLines(con="tables_zeroOCFA1.tex", sep="\n")
+  writeLines(con="tables/zeroOCFA1.tex", sep="\n")
 
 semTable(zeroList[[4]]$fit,
          print.results = F,
@@ -219,7 +222,7 @@ semTable(zeroList[[4]]$fit,
          label = "table:zeroOCFA2") %>%
   cfaLong(caption = "Zero-Sum OCFA2") %>%
   capture.output() %>%
-  writeLines(con="tables_zeroOCFA2.tex", sep="\n")
+  writeLines(con="tables/zeroOCFA2.tex", sep="\n")
 
 
 ## Empathy CFA ----
@@ -233,7 +236,7 @@ semTable(emList[[1]]$fit,
          label = "table:emCFA1") %>%
   cfaLong(caption = "Empathy CFA1") %>%
   capture.output() %>%
-  writeLines(con="tables_emCFA1.tex", sep="\n")
+  writeLines(con="tables/emCFA1.tex", sep="\n")
 
 semTable(emList[[2]]$fit,
          print.results = F,
@@ -244,7 +247,7 @@ semTable(emList[[2]]$fit,
          label = "table:emCFA2") %>%
   cfaLong(caption = "Empathy CFA2") %>%
   capture.output() %>%
-  writeLines(con="tables_emCFA2.tex", sep="\n")
+  writeLines(con="tables/emCFA2.tex", sep="\n")
 
 semTable(emList[[3]]$fit,
          print.results = F,
@@ -255,7 +258,7 @@ semTable(emList[[3]]$fit,
          label = "table:emOCFA1") %>%
   cfaLong(caption = "Empathy OCFA1") %>%
   capture.output() %>%
-  writeLines(con="tables_emOCFA1.tex", sep="\n")
+  writeLines(con="tables/emOCFA1.tex", sep="\n")
 
 semTable(emList[[4]]$fit,
          print.results = F,
@@ -266,7 +269,7 @@ semTable(emList[[4]]$fit,
          label = "table:emOCFA2") %>%
   cfaLong(caption = "Empathy OCFA2") %>%
   capture.output() %>%
-  writeLines(con="tables_emOCFA2.tex", sep="\n")
+  writeLines(con="tables/emOCFA2.tex", sep="\n")
 
 
 
@@ -315,7 +318,7 @@ saveCor <- function(x, file) {
     capture.output() %>%
     writeLines(file, sep="\n")
 }
-f <- str_c("tables_", c("zeroLRCor", "zeroALCor", "emLRCor", "emALcor"), ".tex")
+f <- str_c("tables/", c("zeroLRCor", "zeroALCor", "emLRCor", "emALcor"), ".tex")
 map(1:4, ~saveCor(.x, f[.x]))
 
 
@@ -327,7 +330,7 @@ nameList2[1] <- "Raw"
 coefs <- c("Intercept", "Below GCSE", "GCSE/Equiv", "A-level/Equiv", "Undergrad", "Postgrad")
 
 texreg(zeroResultsLR,
-       file="tables_zeroLR.tex",
+       file="tables/zeroLR.tex",
        custom.model.names = nameList2,
        custom.coef.names = coefs,
        caption.above = T,
@@ -337,7 +340,7 @@ texreg(zeroResultsLR,
        float.pos = "h!")
 
 texreg(emResultsLR,
-       file="tables_emLR.tex",
+       file="tables/emLR.tex",
        custom.model.names = nameList2,
        custom.coef.names = coefs,
        caption.above = T,
@@ -347,7 +350,7 @@ texreg(emResultsLR,
        float.pos = "h!")
 
 texreg(zeroResultsAL,
-       file="tables_zeroAL.tex",
+       file="tables/zeroAL.tex",
        custom.model.names = nameList2,
        custom.coef.names = coefs,
        caption.above = T,
@@ -357,7 +360,7 @@ texreg(zeroResultsAL,
        float.pos = "h!")
 
 texreg(emResultsAL,
-       file="tables_emAL.tex",
+       file="tables/emAL.tex",
        custom.model.names = nameList2,
        custom.coef.names = coefs,
        caption.above = T,
@@ -397,7 +400,7 @@ emResultsALAlt <- map(1:5, ~lm(alModels[[.x]], edf %>% filter(model == nameList[
 ### Tables ----
 
 texreg(zeroResultsLRAlt,
-       file="tables_zeroLRAlt.tex",
+       file="tables/zeroLRAlt.tex",
        custom.model.names = nameList2,
        custom.coef.names = coefs,
        caption.above = T,
@@ -407,7 +410,7 @@ texreg(zeroResultsLRAlt,
        float.pos = "h!")
 
 texreg(emResultsLRAlt,
-       file="tables_emLRAlt.tex",
+       file="tables/emLRAlt.tex",
        custom.model.names = nameList2,
        custom.coef.names = coefs,
        caption.above = T,
@@ -417,7 +420,7 @@ texreg(emResultsLRAlt,
        float.pos = "h!")
 
 texreg(zeroResultsALAlt,
-       file="tables_zeroALAlt.tex",
+       file="tables/zeroALAlt.tex",
        custom.model.names = nameList2,
        custom.coef.names = coefs,
        caption.above = T,
@@ -427,7 +430,7 @@ texreg(zeroResultsALAlt,
        float.pos = "h!")
 
 texreg(emResultsALAlt,
-       file="tables_emALAlt.tex",
+       file="tables/emALAlt.tex",
        custom.model.names = nameList2,
        custom.coef.names = coefs,
        caption.above = T,
@@ -485,7 +488,7 @@ xtable(acqcor, caption="Correlations of Acquiescence Factor with Additive Agreem
         table.placement="h!",
         include.rownames=F) %>%
   capture.output() %>%
-  writeLines("tables_acqcor.tex", sep="\n")
+  writeLines("tables/acqcor.tex", sep="\n")
 
 
 

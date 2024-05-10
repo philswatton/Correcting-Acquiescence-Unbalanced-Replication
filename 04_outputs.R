@@ -16,7 +16,6 @@ library(ggrepel)
 library(ggcorrplot)
 library(dotwhisker)
 
-##
 # Datasets
 bsa <- readRDS("data/bsa2017.rds")
 bes <- readRDS("data/bes2017.rds")
@@ -99,6 +98,12 @@ figw <- figh <- 3
 ## Functions
 source("utils.R")
 
+
+## Save dir
+if (!dir.exists("images")) dir.create("images")
+
+
+
 # Demonstration Outputs ----
 
 ## Variable Distribution Plots ----
@@ -109,7 +114,7 @@ besJoint <- build_dist_plot(bes, "BES")
 besipJoint <- build_dist_plot(besip, "BESIP")
 
 # Save
-pdf("images_demoJoint.pdf", height=5, width=5*2)
+pdf("images/demoJoint.pdf", height=5, width=5*2)
 demoJoint <- grid.arrange(bsaJoint, besJoint, besipJoint, ncol=3, nrow=1)
 dev.off()
 
@@ -122,7 +127,7 @@ demop2 <- make_demo_coef_plot(demoReg, 2)
 
 # Save
 demoCoef <- ggarrange(demop1, demop2, ncol=2, common.legend=T, legend="right")
-ggsave("images_demoCoef.pdf", demoCoef, height=4, width=4*2)
+ggsave("images/demoCoef.pdf", demoCoef, height=4, width=4*2)
 
 
 
@@ -153,7 +158,7 @@ emBar <- ggplot(empathy, aes(x=emScale, weight=weight)) +
 
 
 barPlots <- ggarrange(zeroBar, emBar, ncol=2)
-ggsave("images_barPlots.pdf", barPlots, height=figh, width=figw*2)
+ggsave("images/barPlots.pdf", barPlots, height=figh, width=figw*2)
 
 
 
@@ -172,7 +177,7 @@ heat <- ggplot(graphdf %>% mutate(subset=factor(subset, levels=c("Zero-Sum", "Em
   theme(aspect.ratio = 1,
         plot.title = element_text(hjust=0.5))
 
-ggsave("images_heat.pdf", heat, height=5, width=5*2)
+ggsave("images/heat.pdf", heat, height=5, width=5*2)
 
 
 
@@ -186,7 +191,7 @@ lrden <- ggplot(graphdf, aes(x=RightCorrected)) +
   theme(aspect.ratio = 1,
         plot.title = element_text(hjust=0.5))
 
-ggsave("images_lrden.pdf", lrden)
+ggsave("images/lrden.pdf", lrden)
 
 
 laden <- ggplot(graphdf, aes(x=AuthCorrected)) +
@@ -196,7 +201,7 @@ laden <- ggplot(graphdf, aes(x=AuthCorrected)) +
   theme_bw() +
   theme(aspect.ratio = 1,
         plot.title = element_text(hjust=0.5))
-ggsave("images_laden.pdf", laden)
+ggsave("images/laden.pdf", laden)
 
 
 
@@ -224,7 +229,7 @@ corPlots <- map2(cors, titles, ~ggcorrplot(.x,
                                            lab_col="white",
                                            colors=c(darkblu, "white", liteblu)) + labs(title=.y))
 
-pdf("images_corr.pdf", height=6, width=6)
+pdf("images/corr.pdf", height=6, width=6)
 ggarrange(plotlist=corPlots,
           ncol=2,
           nrow=2,
@@ -306,7 +311,7 @@ coefPlot <- ggplot(regdf, aes(x=estimate, y=term, xmin=conf.low, xmax=conf.high,
   theme_bw() +
   theme(aspect.ratio=1)
 
-ggsave("images_coefs.pdf", coefPlot, width=6, height=6)
+ggsave("images/coefs.pdf", coefPlot, width=6, height=6)
 
 
 
@@ -403,7 +408,7 @@ make_corr_grid <- function(index) {
                         align="hv",
                         common.legend=T,
                         legend="right")
-  ggsave(filename=str_c("images_pair_plots_", titles[index], ".pdf"),
+  ggsave(filename=str_c("images/pair_plots_", titles[index], ".pdf"),
          width=8,
          height=8)
 }
